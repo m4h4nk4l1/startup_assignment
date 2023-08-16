@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import ContactForm from './components/ContactForm';
+
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
 function App() {
+  const [submittedData, setSubmittedData] = useState<FormData | null>(null);
+
+  const handleFormSubmit = async (data: FormData) => {
+    // Simulate an asynchronous API call here
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setSubmittedData(data);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bg-gray-100 min-h-screen flex items-center justify-center">
+      <div className="bg-teal-200 p-6 rounded-2xl shadow-2xl shadow-slate-900">
+        <h1 className="text-2xl font-semibold mb-4">Contact Me</h1>
+        {submittedData ? (
+          <div>
+            <p>Name: {submittedData.name}</p>
+            <p>Email: {submittedData.email}</p>
+            <p>Message: {submittedData.message}</p>
+          </div>
+        ) : (
+          <ContactForm onSubmit={handleFormSubmit} />
+        )}
+      </div>
     </div>
   );
 }
